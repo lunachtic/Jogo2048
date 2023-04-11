@@ -10,17 +10,37 @@ import android.view.MotionEvent;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.Arrays;
+
 
 public class MainActivity extends AppCompatActivity {
 
     private GestureDetectorCompat mDetector;
     private TextView textView1;
-    private ImageView images[] = {null,null,null,null,null,null,null,null};
-    private int grid[] = {0,0,0,0,2,2,2,0,0,0,0,0,0,0,0,0};
-    private int numbers[] = {R.drawable.img_empty, R.drawable.img2, R.drawable.img4, R.drawable.img8};
-    private int[] ids = {
+    private ImageView[] images = {
+            null,null,null,null,
+            null,null,null,null,
+            null,null,null,null,
+            null,null,null,null
+    };
+    private int[] grid = {
+            0,2,4,0,
+            2,2,2,0,
+            2,0,0,2,
+            0,4,0,0
+    };
+    private boolean[] gridUsed = {
+            false, false, false, false,
+            false, false, false, false,
+            false, false, false, false,
+            false, false, false, false
+    };
+    private final int[] numbers = {R.drawable.img_empty, R.drawable.img2, R.drawable.img4, R.drawable.img8};
+    private final int[] ids = {
             R.id.img00, R.id.img01, R.id.img02, R.id.img03,
-            R.id.img10, R.id.img11, R.id.img12, R.id.img13
+            R.id.img10, R.id.img11, R.id.img12, R.id.img13,
+            R.id.img20, R.id.img21, R.id.img22, R.id.img23,
+            R.id.img30, R.id.img31, R.id.img32, R.id.img33
     };
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -28,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         mDetector = new GestureDetectorCompat(this, new MyGestureListener());
         for (int i = 0; i < ids.length; i++) {
-            this.images[i] = (ImageView) findViewById(ids[i]);
+            this.images[i] = findViewById(ids[i]);
         }
         onSwipeStart();
         updateImages();
@@ -83,10 +103,21 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onSwipeRight() {
+        Arrays.fill(this.gridUsed, false);
         for (int i = images.length-1; i >= 0; i--) {
-            if (i%4 != 0 && grid[i] == grid[i-1]) {
-                grid[i] = grid[i-1]*2;
-                grid[i-1] = 0;
+            // Se o campo tiver valor, movimenta o campo para a direita (máximo que puder)
+            if (grid[i] != 0 && i%4 != 3) {
+                while (grid[i+1] == 0 && i%4 != 3) {
+                    grid[i+1] = grid[i];
+                    grid[i] = 0;
+                    i++;
+                }
+            }
+            // Soma valores
+            if (i%4 != 3 && grid[i] == grid[i+1] && !gridUsed[i+1]) {
+                gridUsed[i+1] = true;
+                grid[i+1] = grid[i]*2;
+                grid[i] = 0;
             }
         }
         this.updateImages();
@@ -94,32 +125,65 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onSwipeLeft() {
+        Arrays.fill(this.gridUsed, false);
         for (int i = 0; i < images.length; i++) {
-            if (i%4 != 3 && grid[i] == grid[i+1]) {
-                grid[i+1] = 0;
-                grid[i] = grid[i+1]*2;
+            // Se o campo tiver valor, movimenta o campo para a esquerda (máximo que puder)
+            if (grid[i] != 0 && i%4 != 0) {
+                while (grid[i-1] == 0 && i%4 != 0) {
+                    grid[i-1] = grid[i];
+                    grid[i] = 0;
+                    i--;
+                }
+            }
+            // Soma valores
+            if (i%4 != 0 && grid[i] == grid[i-1] && !gridUsed[i-1]) {
+                gridUsed[i-1] = true;
+                grid[i-1] = grid[i]*2;
+                grid[i] = 0;
             }
         }
         this.updateImages();
     }
 
     public void onSwipeTop() {
-//        for (int i = images.length-1; i >= 0; i--) {
-//            if (i%4 != 0 && grid[i] == grid[i-1]) {
-//                grid[i] = grid[i-1]*2;
-//                grid[i-1] = 0;
-//            }
-//        }
+        Arrays.fill(this.gridUsed, false);
+        for (int i = 4; i < images.length; i++) {
+            // Se o campo tiver valor, movimenta o campo para cima (máximo que puder)
+            if (grid[i] != 0) {
+                while (grid[i-4] == 0 && i > 3) {
+                    grid[i-4] = grid[i];
+                    grid[i] = 0;
+                    i -= i > 7 ? 4 : 0;
+                }
+            }
+            // Soma valores
+            if (grid[i] == grid[i-4] && !gridUsed[i-4]) {
+                gridUsed[i-4] = true;
+                grid[i-4] = grid[i]*2;
+                grid[i] = 0;
+            }
+        }
         this.updateImages();
     }
 
     public void onSwipeBottom() {
-//        for (int i = images.length-1; i >= 0; i--) {
-//            if (i%4 != 0 && grid[i] == grid[i-1]) {
-//                grid[i] = grid[i-1]*2;
-//                grid[i-1] = 0;
-//            }
-//        }
+        Arrays.fill(this.gridUsed, false);
+        for (int i = images.length-5; i >= 0; i--) {
+            // Se o campo tiver valor, movimenta o campo para baixo (máximo que puder)
+            if (grid[i] != 0) {
+                while (grid[i+4] == 0 && i < 12) {
+                    grid[i+4] = grid[i];
+                    grid[i] = 0;
+                    i += i < 10 ? 4 : 0;
+                }
+            }
+            // Soma valores
+            if (grid[i] == grid[i+4] && !gridUsed[i+4]) {
+                gridUsed[i+4] = true;
+                grid[i+4] = grid[i]*2;
+                grid[i] = 0;
+            }
+        }
         this.updateImages();
     }
 
