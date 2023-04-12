@@ -29,13 +29,23 @@ public class MainActivity extends AppCompatActivity {
             2,0,0,2,
             0,4,0,0
     };
+//    private int[][] grid = {
+//            {0, 2, 4, 0},
+//            {2, 2, 2, 0},
+//            {2, 0, 0, 2},
+//            {0, 4, 0, 0}
+//    };
+
+
     private boolean[] gridUsed = {
             false, false, false, false,
             false, false, false, false,
             false, false, false, false,
             false, false, false, false
     };
-    private final int[] numbers = {R.drawable.img_empty, R.drawable.img2, R.drawable.img4, R.drawable.img8};
+    private final int[] numbers = {R.drawable.img_empty, R.drawable.img2, R.drawable.img4, R.drawable.img8,
+                                    R.drawable.img16, R.drawable.img32, R.drawable.img64, R.drawable.img128,
+                                    R.drawable.img256, R.drawable.img512, R.drawable.img1024, R.drawable.img2048};
     private final int[] ids = {
             R.id.img00, R.id.img01, R.id.img02, R.id.img03,
             R.id.img10, R.id.img11, R.id.img12, R.id.img13,
@@ -120,8 +130,9 @@ public class MainActivity extends AppCompatActivity {
                 grid[i] = 0;
             }
         }
-        this.updateImages();
+
         this.spawnNewNumber();
+        this.updateImages();
     }
 
     public void onSwipeLeft() {
@@ -142,6 +153,7 @@ public class MainActivity extends AppCompatActivity {
                 grid[i] = 0;
             }
         }
+        this.spawnNewNumber();
         this.updateImages();
     }
 
@@ -163,6 +175,7 @@ public class MainActivity extends AppCompatActivity {
                 grid[i] = 0;
             }
         }
+        this.spawnNewNumber();
         this.updateImages();
     }
 
@@ -184,6 +197,7 @@ public class MainActivity extends AppCompatActivity {
                 grid[i] = 0;
             }
         }
+        this.spawnNewNumber();
         this.updateImages();
     }
 
@@ -198,7 +212,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void spawnNewNumber() {
-
+        Double x = Math.random()*3;
+        while(true){
+            int posicao = (int) Math.floor(Math.random() * (11 + 1));
+            if( grid[posicao] == 0 ){
+                if(x >= 1){
+                    grid[posicao]=2;
+                }else{
+                    grid[posicao]=4;
+                }
+            }
+            break;
+        }
     }
 
     private double log2(int x) {
