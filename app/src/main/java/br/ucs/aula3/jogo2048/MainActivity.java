@@ -1,25 +1,24 @@
 package br.ucs.aula3.jogo2048;
 
-import static br.ucs.aula3.jogo2048.R.id.*;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.core.view.GestureDetectorCompat;
 
-import android.media.SoundPool;
 import android.os.Bundle;
-import android.service.autofill.Field;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import java.util.Arrays;
 
 
 public class MainActivity extends AppCompatActivity {
     private GestureDetectorCompat mDetector;
-    int Tam = 4, tamanho = (int) Math.pow(Tam,2);
+    private static final int TAM = 4;
+    private static final int DIREITA = 1;
+    private static final int ESQUERDA = -1;
+    private static final int CIMA = 1;
+    private static final int BAIXO = -1;
     private ImageView[][] images = {
             {null, null, null, null},
             {null, null, null, null},
@@ -55,8 +54,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mDetector = new GestureDetectorCompat(this, new MyGestureListener());
-        for (int i = 0; i < Tam; i++)
-            for(int j = 0; j<Tam; j++)
+        for (int i = 0; i < TAM; i++)
+            for(int j = 0; j<TAM; j++)
                 this.images[i][j] = findViewById(ids[i][j]);
         updateImages();
     }
@@ -104,46 +103,20 @@ public class MainActivity extends AppCompatActivity {
             return result;
         }
     }
-    public void onSwipeStart() {
-        //MainActivity.this.images[5].setImageDrawable(null);
-    }
-    public void onSwipeRight() {
-        boolean Atualiza = false;
-        for (int i = 0; i < Tam; i++)
+    private void zerarGridUsed() {
+        for (int i = 0; i < TAM; i++) {
             Arrays.fill(this.gridUsed[i], false);
-        for (int i = 0; i < Tam; i++)
-            for(int j = 2; j>=0; j--)
-                // Se o campo tiver valor, movimenta o campo para a Direita (máximo que puder)
-                if (grid[i][j] != 0 ) {
-                    int temp=j;
-                    while (j<=2 && grid[i][j+1] == 0) {
-                        grid[i][j+1] = grid[i][j];
-                        grid[i][j] = 0;
-                        j++;
-                    }
-                    j=temp;
-                }
-        for (int i = 0; i < Tam; i++)
-            for(int j = 2; j>=0; j--)
-                // Soma valores
-                if (grid[i][j] == grid[i][j + 1] && !gridUsed[i][j + 1]) {
-                    gridUsed[i][j + 1] = Atualiza = true;
-                    grid[i][j + 1] = grid[i][j] * 2;
-                    grid[i][j] = 0;
-                }
-        for (int i = 0; i < Tam; i++)
-            for(int j = 2; j>=0; j--)
-                // Se o campo tiver valor, movimenta o campo para a Direita (máximo que puder)
-                if (grid[i][j] != 0 ) {
-                    int temp=j;
-                    while (j<=2 && grid[i][j+1] == 0) {
-                        grid[i][j+1] = grid[i][j];
-                        grid[i][j] = 0;
-                        j++;
-                    }
-                    j=temp;
-                }
-        if(Atualiza){
+        }
+    }
+
+    public void onSwipeRight() {
+        this.zerarGridUsed();
+        boolean moveuAlgo = false;
+        moveuAlgo = this.movimentaHorizontal(DIREITA) || moveuAlgo;
+        moveuAlgo = this.somaHorizontal(DIREITA) || moveuAlgo;
+        moveuAlgo =this.movimentaHorizontal(DIREITA) || moveuAlgo;
+
+        if (moveuAlgo) {
             this.updateImages();
             this.spawnNewNumber();
         }
@@ -151,42 +124,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onSwipeLeft() {
-        boolean Atualiza = false;
-        for (int i = 0; i < Tam; i++)
-            Arrays.fill(this.gridUsed[i], false);
-        for (int i = 0; i < Tam; i++)
-            for(int j = 1; j < Tam; j++)
-                // Se o campo tiver valor, movimenta o campo para a Esquerda (máximo que puder)
-                if (grid[i][j] != 0 ) {
-                    int temp=j;
-                    while (j>=1 && grid[i][j-1] == 0 ) {
-                        grid[i][j-1] = grid[i][j];
-                        grid[i][j] = 0;
-                        j--;
-                    }
-                    j=temp;
-                }
-        for (int i = 0; i < Tam; i++)
-            for(int j = 1; j < Tam; j++)
-                // Soma valores
-                if (grid[i][j] == grid[i][j - 1] && !gridUsed[i][j - 1]) {
-                    gridUsed[i][j - 1] = Atualiza = true;
-                    grid[i][j - 1] = grid[i][j] * 2;
-                    grid[i][j] = 0;
-                }
-        for (int i = 0; i < Tam; i++)
-            for(int j = 1; j < Tam; j++)
-                // Se o campo tiver valor, movimenta o campo para a Esquerda (máximo que puder)
-                if (grid[i][j] != 0 ) {
-                    int temp=j;
-                    while (j>=1 && grid[i][j-1] == 0 ) {
-                        grid[i][j-1] = grid[i][j];
-                        grid[i][j] = 0;
-                        j--;
-                    }
-                    j=temp;
-                }
-        if(Atualiza){
+        this.zerarGridUsed();
+        boolean moveuAlgo = false;
+        moveuAlgo = this.movimentaHorizontal(ESQUERDA) || moveuAlgo;
+        moveuAlgo = this.somaHorizontal(ESQUERDA) || moveuAlgo;
+        moveuAlgo =this.movimentaHorizontal(ESQUERDA) || moveuAlgo;
+
+        if (moveuAlgo) {
             this.updateImages();
             this.spawnNewNumber();
         }
@@ -194,42 +138,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onSwipeTop() {
-        boolean Atualiza = false;
-        for (int i = 0; i < Tam; i++)
-            Arrays.fill(this.gridUsed[i], false);
-        for (int i = 1; i < Tam; i++)
-            for(int j = 0; j < Tam; j++)
-                // Se o campo tiver valor, movimenta o campo para a Cima (máximo que puder)
-                if (grid[i][j] != 0 ) {
-                    int temp=i;
-                    while (i>=1 && grid[i-1][j] == 0 ) {
-                        grid[i-1][j] = grid[i][j];
-                        grid[i][j] = 0;
-                        i--;
-                    }
-                    i=temp;
-                }
-        for (int i = 1; i < Tam; i++)
-            for(int j = 0; j < Tam; j++)
-                // Soma valores
-                if (grid[i][j] == grid[i-1][j] && !gridUsed[i-1][j]) {
-                    gridUsed[i-1][j] = Atualiza = true;
-                    grid[i-1][j] = grid[i][j] * 2;
-                    grid[i][j] = 0;
-                }
-        for (int i = 1; i < Tam; i++)
-            for(int j = 0; j < Tam; j++)
-                // Se o campo tiver valor, movimenta o campo para a Cima (máximo que puder)
-                if (grid[i][j] != 0 ) {
-                    int temp=i;
-                    while (i>=1 && grid[i-1][j] == 0 ) {
-                        grid[i-1][j] = grid[i][j];
-                        grid[i][j] = 0;
-                        i--;
-                    }
-                    i=temp;
-                }
-        if(Atualiza){
+        this.zerarGridUsed();
+        boolean moveuAlgo = false;
+        moveuAlgo = this.movimentaVertical(CIMA) || moveuAlgo;
+        moveuAlgo = this.somaVertical(CIMA) || moveuAlgo;
+        moveuAlgo = this.movimentaVertical(CIMA) || moveuAlgo;
+        if(moveuAlgo){
             this.updateImages();
             this.spawnNewNumber();
         }
@@ -237,50 +151,93 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onSwipeBottom() {
-        boolean Atualiza = false;
-        for (int i = 0; i < Tam; i++)
-            Arrays.fill(this.gridUsed[i], false);
-        for (int i = 2; i >= 0; i--)
-            for(int j = 0; j<Tam; j++)
-                // Se o campo tiver valor, movimenta o campo para a Baixo (máximo que puder)
-                if (grid[i][j] != 0 ) {
-                    int temp=i;
-                    while (i<=2 && grid[i+1][j] == 0) {
-                        grid[i+1][j] = grid[i][j];
-                        grid[i][j] = 0;
-                        i++;
-                    }
-                    i=temp;
-                }
-        for (int i = 2; i >= 0; i--)
-            for(int j = 0; j<Tam; j++)
-                // Soma valores
-                if (grid[i][j] == grid[i+1][j] && !gridUsed[i+1][j]) {
-                    gridUsed[i+1][j] = Atualiza = true;
-                    grid[i+1][j] = grid[i][j] * 2;
-                    grid[i][j] = 0;
-                }
-        for (int i = 2; i >= 0; i--)
-            for(int j = 0; j<Tam; j++)
-                // Se o campo tiver valor, movimenta o campo para a Baixo (máximo que puder)
-                if (grid[i][j] != 0 ) {
-                    int temp=i;
-                    while (i<=2 && grid[i+1][j] == 0) {
-                        grid[i+1][j] = grid[i][j];
-                        grid[i][j] = 0;
-                        i++;
-                    }
-                    i=temp;
-                }
-        if(Atualiza){
+        this.zerarGridUsed();
+        boolean moveuAlgo = false;
+        moveuAlgo = this.movimentaVertical(BAIXO) || moveuAlgo;
+        moveuAlgo = this.somaVertical(BAIXO) || moveuAlgo;
+        moveuAlgo = this.movimentaVertical(BAIXO) || moveuAlgo;
+        if (moveuAlgo) {
             this.updateImages();
             this.spawnNewNumber();
         }
         return;
     }
+
+    private boolean movimentaHorizontal (int direcao) {
+        boolean moveuAlgo = false;
+        for (int i = 0; i < TAM; i++) {
+            for (int j = (direcao == DIREITA ? 2 : 1); (direcao == DIREITA ? j >= 0 : j < TAM); j-=direcao) {
+                // Se o campo tiver valor, movimenta o campo para a direção desejada (máximo que puder)
+                if (grid[i][j] != 0) {
+                    int temp = j;
+                    while ((direcao == DIREITA ? j <= 2 : j >= 1) && grid[i][j + direcao] == 0) {
+                        grid[i][j + direcao] = grid[i][j];
+                        grid[i][j] = 0;
+                        j+=direcao;
+                        moveuAlgo = true;
+                    }
+                    j = temp;
+                }
+            }
+        }
+        return moveuAlgo;
+    }
+
+    private boolean somaHorizontal(int direcao) {
+        boolean moveuAlgo = false;
+
+        for (int i = 0; i < TAM; i++) {
+            for (int j = (direcao == DIREITA ? 2 : 1); (direcao == DIREITA ? j >= 0 : j < TAM); j-=direcao) {
+                // Soma valores
+                if (grid[i][j] == grid[i][j + direcao] && !gridUsed[i][j + direcao]) {
+                    gridUsed[i][j + direcao] = moveuAlgo = true;
+                    grid[i][j + direcao] = grid[i][j] * 2;
+                    grid[i][j] = 0;
+                }
+            }
+        }
+
+        return moveuAlgo;
+    }
+
+    private boolean movimentaVertical(int direcao) {
+        boolean moveuAlgo = false;
+        for (int i = (direcao == CIMA ? 1 : 2); (direcao == CIMA ? i < TAM : i >= 0); i+=direcao) {
+            for (int j = 0; j < TAM; j++) {
+                // Se o campo tiver valor, movimenta o campo para a Baixo (máximo que puder)
+                if (grid[i][j] != 0) {
+                    int temp = i;
+                    while ((direcao == CIMA ? i >= 1 : i <= 2) && grid[i - direcao][j] == 0) {
+                        grid[i - direcao][j] = grid[i][j];
+                        grid[i][j] = 0;
+                        i-=direcao;
+                        moveuAlgo = true;
+                    }
+                    i = temp;
+                }
+            }
+        }
+        return moveuAlgo;
+    }
+
+    private boolean somaVertical(int direcao) {
+        boolean moveuAlgo = false;
+        for (int i = (direcao == CIMA ? 1 : 2); (direcao == CIMA ? i < TAM : i >= 0); i+=direcao) {
+            for (int j = 0; j < TAM; j++) {
+                // Soma valores
+                if (grid[i][j] == grid[i - direcao][j] && !gridUsed[i - direcao][j]) {
+                    gridUsed[i - direcao][j] = moveuAlgo = true;
+                    grid[i - direcao][j] = grid[i][j] * 2;
+                    grid[i][j] = 0;
+                }
+            }
+        }
+        return moveuAlgo;
+    }
+
     private void updateImages() {
-        for (int i = 0; i < Tam; i++) {
-            for (int j = 0; j < Tam; j++) {
+        for (int i = 0; i < TAM; i++) {
+            for (int j = 0; j < TAM; j++) {
                 int value = grid[i][j];
                 int pos = 0;
                 if (value > 0)
@@ -291,13 +248,16 @@ public class MainActivity extends AppCompatActivity {
         return;
     }
     private void spawnNewNumber() {
-        int valor = (int) (Math.random() * 4);
-        while(true){
-            int posicao1 = (int) (Math.random() * 4);
-            int posicao2 = (int) (Math.random() * 4);
-            if( grid[posicao1][posicao2] == 0 ){
-                if(valor == 1){grid[posicao1][posicao2]=4;}
-                else{grid[posicao1][posicao2]=2;}
+        int valor = (int) (Math.random() * 10);
+        while (true) {
+            int linha = (int) (Math.random() * 4);
+            int coluna = (int) (Math.random() * 4);
+            if (grid[linha][coluna] == 0) {
+                // Apenas 10% de chance de gerar um 4 ao invés de um 2
+                if (valor == 0)
+                    grid[linha][coluna] = 4;
+                else
+                    grid[linha][coluna] = 2;
             }
             break;
         }
