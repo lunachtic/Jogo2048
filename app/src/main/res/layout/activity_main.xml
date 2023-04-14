@@ -36,7 +36,7 @@
             app:layout_constraintEnd_toStartOf="@+id/img01"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:srcCompat="@drawable/android" />
+            tools:srcCompat="@drawable/img0" />
 
         <ImageView
             android:id="@+id/img01"
@@ -45,7 +45,7 @@
             app:layout_constraintEnd_toStartOf="@+id/img02"
             app:layout_constraintStart_toEndOf="@+id/img00"
             app:layout_constraintTop_toTopOf="parent"
-            tools:srcCompat="@drawable/android" />
+            tools:srcCompat="@drawable/img0" />
 
         <ImageView
             android:id="@+id/img02"
@@ -54,7 +54,7 @@
             app:layout_constraintEnd_toStartOf="@+id/img03"
             app:layout_constraintStart_toEndOf="@+id/img01"
             app:layout_constraintTop_toTopOf="parent"
-            tools:srcCompat="@drawable/android" />
+            tools:srcCompat="@drawable/img0" />
 
         <ImageView
             android:id="@+id/img03"
@@ -63,7 +63,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/img02"
             app:layout_constraintTop_toTopOf="parent"
-            tools:srcCompat="@drawable/android" />
+            tools:srcCompat="@drawable/img0" />
 
         <ImageView
             android:id="@+id/img10"
@@ -72,7 +72,7 @@
             app:layout_constraintEnd_toStartOf="@+id/img11"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/img00"
-            tools:srcCompat="@drawable/android" />
+            tools:srcCompat="@drawable/img0" />
 
         <ImageView
             android:id="@+id/img11"
@@ -81,7 +81,7 @@
             app:layout_constraintEnd_toStartOf="@+id/img12"
             app:layout_constraintStart_toEndOf="@+id/img10"
             app:layout_constraintTop_toBottomOf="@+id/img01"
-            tools:srcCompat="@drawable/android" />
+            tools:srcCompat="@drawable/img0" />
 
         <ImageView
             android:id="@+id/img12"
@@ -90,7 +90,7 @@
             app:layout_constraintEnd_toStartOf="@+id/img13"
             app:layout_constraintStart_toEndOf="@+id/img11"
             app:layout_constraintTop_toBottomOf="@+id/img02"
-            tools:srcCompat="@drawable/android" />
+            tools:srcCompat="@drawable/img0" />
 
         <ImageView
             android:id="@+id/img13"
@@ -99,7 +99,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/img12"
             app:layout_constraintTop_toBottomOf="@+id/img03"
-            tools:srcCompat="@drawable/android" />
+            tools:srcCompat="@drawable/img0" />
 
         <ImageView
             android:id="@+id/img20"
@@ -108,7 +108,7 @@
             app:layout_constraintEnd_toStartOf="@+id/img21"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/img10"
-            tools:srcCompat="@drawable/android" />
+            tools:srcCompat="@drawable/img0" />
 
         <ImageView
             android:id="@+id/img21"
@@ -117,7 +117,7 @@
             app:layout_constraintEnd_toStartOf="@+id/img22"
             app:layout_constraintStart_toEndOf="@+id/img20"
             app:layout_constraintTop_toBottomOf="@+id/img11"
-            tools:srcCompat="@drawable/android" />
+            tools:srcCompat="@drawable/img0" />
 
         <ImageView
             android:id="@+id/img22"
@@ -126,7 +126,7 @@
             app:layout_constraintEnd_toStartOf="@+id/img23"
             app:layout_constraintStart_toEndOf="@+id/img21"
             app:layout_constraintTop_toBottomOf="@+id/img12"
-            tools:srcCompat="@drawable/android" />
+            tools:srcCompat="@drawable/img0" />
 
         <ImageView
             android:id="@+id/img23"
@@ -135,7 +135,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/img22"
             app:layout_constraintTop_toBottomOf="@+id/img13"
-            tools:srcCompat="@drawable/android" />
+            tools:srcCompat="@drawable/img0" />
 
         <ImageView
             android:id="@+id/img30"
@@ -144,7 +144,7 @@
             app:layout_constraintEnd_toStartOf="@+id/img31"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/img20"
-            tools:srcCompat="@drawable/android" />
+            tools:srcCompat="@drawable/img0" />
 
         <ImageView
             android:id="@+id/img31"
@@ -153,7 +153,7 @@
             app:layout_constraintEnd_toStartOf="@+id/img32"
             app:layout_constraintStart_toEndOf="@+id/img30"
             app:layout_constraintTop_toBottomOf="@+id/img21"
-            tools:srcCompat="@drawable/android" />
+            tools:srcCompat="@drawable/img0" />
 
         <ImageView
             android:id="@+id/img32"
@@ -162,7 +162,7 @@
             app:layout_constraintEnd_toStartOf="@+id/img33"
             app:layout_constraintStart_toEndOf="@+id/img31"
             app:layout_constraintTop_toBottomOf="@+id/img22"
-            tools:srcCompat="@drawable/android" />
+            tools:srcCompat="@drawable/img0" />
 
         <ImageView
             android:id="@+id/img33"
@@ -171,7 +171,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/img32"
             app:layout_constraintTop_toBottomOf="@+id/img23"
-            tools:srcCompat="@drawable/android" />
+            tools:srcCompat="@drawable/img0" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
