@@ -4,10 +4,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.core.view.GestureDetectorCompat;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.util.Arrays;
 
@@ -39,6 +42,12 @@ public class MainActivity extends AppCompatActivity {
             {false, false, false, false},
             {false, false, false, false}
     };
+
+    private int score = 0;
+    private int best = 0;
+    private TextView scoreTextView;
+    private TextView bestTextView;
+    SharedPreferences sharedPreferences;
     private final int[] numbers = {R.drawable.img0, R.drawable.img2, R.drawable.img4, R.drawable.img8,
                                     R.drawable.img16, R.drawable.img32, R.drawable.img64, R.drawable.img128,
                                     R.drawable.img256, R.drawable.img512, R.drawable.img1024, R.drawable.img2048};
@@ -54,9 +63,19 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mDetector = new GestureDetectorCompat(this, new MyGestureListener());
+
+        // Coleta referências por ID
         for (int i = 0; i < TAM; i++)
             for(int j = 0; j<TAM; j++)
                 this.images[i][j] = findViewById(ids[i][j]);
+        scoreTextView = findViewById(R.id.txtScore);
+        bestTextView = findViewById(R.id.txtBest);
+
+        // Recupera o BEST SCORE das SharedPreferences
+        sharedPreferences = getApplicationContext().getSharedPreferences("Game2048Preferences", MODE_PRIVATE);
+        this.best = sharedPreferences.getInt("best_score", 0);
+        this.bestTextView.setText(Integer.toString(best));
+
         updateImages();
     }
 
@@ -103,6 +122,7 @@ public class MainActivity extends AppCompatActivity {
             return result;
         }
     }
+
     private void zerarGridUsed() {
         for (int i = 0; i < TAM; i++) {
             Arrays.fill(this.gridUsed[i], false);
@@ -117,10 +137,10 @@ public class MainActivity extends AppCompatActivity {
         moveuAlgo =this.movimentaHorizontal(DIREITA) || moveuAlgo;
 
         if (moveuAlgo) {
+            this.updateScore();
             this.updateImages();
             this.spawnNewNumber();
         }
-        return;
     }
 
     public void onSwipeLeft() {
@@ -131,10 +151,10 @@ public class MainActivity extends AppCompatActivity {
         moveuAlgo =this.movimentaHorizontal(ESQUERDA) || moveuAlgo;
 
         if (moveuAlgo) {
+            this.updateScore();
             this.updateImages();
             this.spawnNewNumber();
         }
-        return;
     }
 
     public void onSwipeTop() {
@@ -143,11 +163,11 @@ public class MainActivity extends AppCompatActivity {
         moveuAlgo = this.movimentaVertical(CIMA) || moveuAlgo;
         moveuAlgo = this.somaVertical(CIMA) || moveuAlgo;
         moveuAlgo = this.movimentaVertical(CIMA) || moveuAlgo;
-        if(moveuAlgo){
+        if (moveuAlgo) {
+            this.updateScore();
             this.updateImages();
             this.spawnNewNumber();
         }
-        return;
     }
 
     public void onSwipeBottom() {
@@ -157,10 +177,10 @@ public class MainActivity extends AppCompatActivity {
         moveuAlgo = this.somaVertical(BAIXO) || moveuAlgo;
         moveuAlgo = this.movimentaVertical(BAIXO) || moveuAlgo;
         if (moveuAlgo) {
+            this.updateScore();
             this.updateImages();
             this.spawnNewNumber();
         }
-        return;
     }
 
     private boolean movimentaHorizontal (int direcao) {
@@ -193,6 +213,8 @@ public class MainActivity extends AppCompatActivity {
                     gridUsed[i][j + direcao] = moveuAlgo = true;
                     grid[i][j + direcao] = grid[i][j] * 2;
                     grid[i][j] = 0;
+
+                    score += grid[i][j + direcao];
                 }
             }
         }
@@ -229,10 +251,24 @@ public class MainActivity extends AppCompatActivity {
                     gridUsed[i - direcao][j] = moveuAlgo = true;
                     grid[i - direcao][j] = grid[i][j] * 2;
                     grid[i][j] = 0;
+
+                    score += grid[i - direcao][j];
                 }
             }
         }
         return moveuAlgo;
+    }
+
+    private void updateScore() {
+        this.scoreTextView.setText(Integer.toString(score));
+        if (score > best) {
+            best = score;
+            this.bestTextView.setText(Integer.toString(best));
+
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putInt("best_score", best);
+            editor.apply();
+        }
     }
 
     private void updateImages() {
@@ -242,13 +278,14 @@ public class MainActivity extends AppCompatActivity {
                 int pos = 0;
                 if (value > 0)
                     pos = (int) Math.round(Math.log(value)/Math.log(2));
-                MainActivity.this.images[i][j].setImageDrawable(ResourcesCompat.getDrawable(this.getResources(), numbers[pos], null));
+                this.images[i][j].setImageDrawable(ResourcesCompat.getDrawable(this.getResources(), numbers[pos], null));
             }
         }
         return;
     }
     private void spawnNewNumber() {
         int valor = (int) (Math.random() * 10);
+        // TODO: Verificar cenário onde não existe mais espaço disponível, deve encerrar o jogo
         while (true) {
             int linha = (int) (Math.random() * 4);
             int coluna = (int) (Math.random() * 4);
@@ -262,6 +299,20 @@ public class MainActivity extends AppCompatActivity {
             break;
         }
         this.updateImages();
-        return;
+    }
+
+    public void onNewGameClicked(View view) {
+        // Zera a grid
+        for (int i = 0; i < TAM; i++) {
+            Arrays.fill(this.grid[i], 0);
+        }
+        // Zera o score atual
+        this.score = 0;
+        this.updateScore();
+        // Spawna 2 números
+        this.spawnNewNumber();
+        this.spawnNewNumber();
+        // Atualiza a tela
+        updateImages();
     }
 }
