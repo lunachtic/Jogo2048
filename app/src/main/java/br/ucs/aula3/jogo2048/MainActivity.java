@@ -65,9 +65,9 @@ public class MainActivity extends AppCompatActivity {
     private Button btnUndo, btnNewGame;
     private ConstraintLayout constraintLayout;
     SharedPreferences sharedPreferences;
-    private final int[] numbers = {R.drawable.img0, R.drawable.img2, R.drawable.img4, R.drawable.img8,
-                                    R.drawable.img16, R.drawable.img32, R.drawable.img64, R.drawable.img128,
-                                    R.drawable.img256, R.drawable.img512, R.drawable.img1024, R.drawable.img2048};
+    private int[] numbers = {R.drawable.tema1_0, R.drawable.tema1_2, R.drawable.tema1_4, R.drawable.tema1_8,
+                                    R.drawable.tema1_16, R.drawable.tema1_32, R.drawable.tema1_64, R.drawable.tema1_128,
+                                    R.drawable.tema1_256, R.drawable.tema1_512, R.drawable.tema1_1024, R.drawable.tema1_2048};
     private final int[][] ids = {
             {R.id.img00, R.id.img01, R.id.img02, R.id.img03},
             {R.id.img10, R.id.img11, R.id.img12, R.id.img13},
@@ -94,9 +94,7 @@ public class MainActivity extends AppCompatActivity {
         btnUndo = findViewById(R.id.btnUndo);
         btnNewGame = findViewById(R.id.btnNewGame);
 
-        this.changeThemeBackgrounds(R.color.bg1);
-        this.changeThemeTexts(R.color.text1);
-        this.changeThemeButtonColor(R.color.btn1);
+        this.definirTema(1);
 
         // Recupera o BEST SCORE das SharedPreferences
         sharedPreferences = getApplicationContext().getSharedPreferences("Game2048Preferences", MODE_PRIVATE);
@@ -407,22 +405,46 @@ public class MainActivity extends AppCompatActivity {
     public void onChangeThemeClicked(View view) {
         switch (view.getId()) {
             case R.id.btnTheme1:
-                this.changeThemeBackgrounds(R.color.bg1);
-                this.changeThemeTexts(R.color.text1);
-                this.changeThemeButtonColor(R.color.btn1);
+                this.definirTema(1);
                 break;
             case R.id.btnTheme2:
-                this.changeThemeBackgrounds(R.color.bg2);
-                this.changeThemeTexts(R.color.text2);
-                this.changeThemeButtonColor(R.color.btn2);
+                this.definirTema(2);
                 break;
             case R.id.btnTheme3:
-                this.changeThemeBackgrounds(R.color.bg3);
-                this.changeThemeTexts(R.color.text3);
-                this.changeThemeButtonColor(R.color.btn3);
+                this.definirTema(3);
                 break;
 
         }
+    }
+
+    private void definirTema(int tema) {
+        switch (tema) {
+            case 1:
+                this.changeThemeBackgrounds(R.color.bg1);
+                this.changeThemeTexts(R.color.text1);
+                this.changeThemeButtonColor(R.color.btn1);
+                this.numbers = new int[] {R.drawable.tema1_0, R.drawable.tema1_2, R.drawable.tema1_4, R.drawable.tema1_8,
+                        R.drawable.tema1_16, R.drawable.tema1_32, R.drawable.tema1_64, R.drawable.tema1_128,
+                        R.drawable.tema1_256, R.drawable.tema1_512, R.drawable.tema1_1024, R.drawable.tema1_2048};
+                break;
+            case 2:
+                this.changeThemeBackgrounds(R.color.bg2);
+                this.changeThemeTexts(R.color.text2);
+                this.changeThemeButtonColor(R.color.btn2);
+                this.numbers = new int[] {R.drawable.tema2_0, R.drawable.tema2_2, R.drawable.tema2_4, R.drawable.tema2_8,
+                        R.drawable.tema2_16, R.drawable.tema2_32, R.drawable.tema2_64, R.drawable.tema2_128,
+                        R.drawable.tema2_256, R.drawable.tema2_512, R.drawable.tema2_1024, R.drawable.tema2_2048};
+                break;
+            case 3:
+                this.changeThemeBackgrounds(R.color.bg3);
+                this.changeThemeTexts(R.color.text3);
+                this.changeThemeButtonColor(R.color.btn3);
+                this.numbers = new int[] {R.drawable.tema3_0, R.drawable.tema3_2, R.drawable.tema3_4, R.drawable.tema3_8,
+                        R.drawable.tema3_16, R.drawable.tema3_32, R.drawable.tema3_64, R.drawable.tema3_128,
+                        R.drawable.tema3_256, R.drawable.tema3_512, R.drawable.tema3_1024, R.drawable.tema3_2048};
+                break;
+        }
+        this.updateImages();
     }
 
     private void changeThemeBackgrounds(int color) {
