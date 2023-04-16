@@ -267,25 +267,30 @@
             android:id="@+id/btnTheme1"
             android:layout_width="100dp"
             android:layout_height="50dp"
+            android:layout_marginRight="10dp"
             android:layout_weight="1"
+            android:background="@drawable/escolha_tema_1"
             android:onClick="onChangeThemeClicked"
-            app:srcCompat="@drawable/escolha_tema_1" />
+            android:scaleType="fitXY" />
 
         <ImageButton
             android:id="@+id/btnTheme2"
             android:layout_width="100dp"
             android:layout_height="50dp"
             android:layout_weight="1"
-            android:onClick="onChangeThemeClicked"
-            app:srcCompat="@drawable/escolha_tema_2" />
+            android:background="@drawable/escolha_tema_2"
+            android:scaleType="fitXY"
+            android:onClick="onChangeThemeClicked" />
 
         <ImageButton
             android:id="@+id/btnTheme3"
             android:layout_width="100dp"
             android:layout_height="50dp"
+            android:layout_marginLeft="10dp"
             android:layout_weight="1"
+            android:background="@drawable/escolha_tema_3"
             android:onClick="onChangeThemeClicked"
-            app:srcCompat="@drawable/escolha_tema_3" />
+            android:scaleType="fitXY" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
