@@ -70,6 +70,7 @@
             android:id="@+id/img10"
             android:layout_width="75dp"
             android:layout_height="75dp"
+            android:layout_marginTop="2dp"
             app:layout_constraintEnd_toStartOf="@+id/img11"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/img00" />
@@ -78,6 +79,7 @@
             android:id="@+id/img11"
             android:layout_width="75dp"
             android:layout_height="75dp"
+            android:layout_marginTop="2dp"
             app:layout_constraintEnd_toStartOf="@+id/img12"
             app:layout_constraintStart_toEndOf="@+id/img10"
             app:layout_constraintTop_toBottomOf="@+id/img01" />
@@ -86,6 +88,7 @@
             android:id="@+id/img12"
             android:layout_width="75dp"
             android:layout_height="75dp"
+            android:layout_marginTop="2dp"
             app:layout_constraintEnd_toStartOf="@+id/img13"
             app:layout_constraintStart_toEndOf="@+id/img11"
             app:layout_constraintTop_toBottomOf="@+id/img02" />
@@ -94,6 +97,7 @@
             android:id="@+id/img13"
             android:layout_width="75dp"
             android:layout_height="75dp"
+            android:layout_marginTop="2dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/img12"
             app:layout_constraintTop_toBottomOf="@+id/img03" />
@@ -102,6 +106,7 @@
             android:id="@+id/img20"
             android:layout_width="75dp"
             android:layout_height="75dp"
+            android:layout_marginTop="2dp"
             app:layout_constraintEnd_toStartOf="@+id/img21"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/img10" />
@@ -110,6 +115,7 @@
             android:id="@+id/img21"
             android:layout_width="75dp"
             android:layout_height="75dp"
+            android:layout_marginTop="2dp"
             app:layout_constraintEnd_toStartOf="@+id/img22"
             app:layout_constraintStart_toEndOf="@+id/img20"
             app:layout_constraintTop_toBottomOf="@+id/img11" />
@@ -118,6 +124,7 @@
             android:id="@+id/img22"
             android:layout_width="75dp"
             android:layout_height="75dp"
+            android:layout_marginTop="2dp"
             app:layout_constraintEnd_toStartOf="@+id/img23"
             app:layout_constraintStart_toEndOf="@+id/img21"
             app:layout_constraintTop_toBottomOf="@+id/img12" />
@@ -126,6 +133,7 @@
             android:id="@+id/img23"
             android:layout_width="75dp"
             android:layout_height="75dp"
+            android:layout_marginTop="2dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/img22"
             app:layout_constraintTop_toBottomOf="@+id/img13" />
@@ -134,6 +142,7 @@
             android:id="@+id/img30"
             android:layout_width="75dp"
             android:layout_height="75dp"
+            android:layout_marginTop="2dp"
             app:layout_constraintEnd_toStartOf="@+id/img31"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/img20" />
@@ -142,6 +151,7 @@
             android:id="@+id/img31"
             android:layout_width="75dp"
             android:layout_height="75dp"
+            android:layout_marginTop="2dp"
             app:layout_constraintEnd_toStartOf="@+id/img32"
             app:layout_constraintStart_toEndOf="@+id/img30"
             app:layout_constraintTop_toBottomOf="@+id/img21" />
@@ -150,6 +160,7 @@
             android:id="@+id/img32"
             android:layout_width="75dp"
             android:layout_height="75dp"
+            android:layout_marginTop="2dp"
             app:layout_constraintEnd_toStartOf="@+id/img33"
             app:layout_constraintStart_toEndOf="@+id/img31"
             app:layout_constraintTop_toBottomOf="@+id/img22" />
@@ -158,6 +169,7 @@
             android:id="@+id/img33"
             android:layout_width="75dp"
             android:layout_height="75dp"
+            android:layout_marginTop="2dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/img32"
             app:layout_constraintTop_toBottomOf="@+id/img23" />
