@@ -2,8 +2,10 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:theme="@style/Theme.Jogo2048"
     tools:context=".MainActivity">
 
     <TextView
@@ -12,27 +14,30 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="50dp"
         android:layout_marginTop="50dp"
+        android:fontFamily="@font/josefin_sans"
         android:text="@string/game_title"
+        android:textColor="@color/text1"
         android:textSize="48sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout2"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="50dp"
         android:layout_marginTop="100dp"
         android:layout_marginEnd="50dp"
-        android:layout_marginBottom="50dp"
+        android:layout_marginBottom="100dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtTitle">
+        app:layout_constraintTop_toBottomOf="@+id/btnNewGame">
 
         <ImageView
             android:id="@+id/img00"
-            android:layout_width="78dp"
-            android:layout_height="70dp"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
             app:layout_constraintEnd_toStartOf="@+id/img01"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -40,8 +45,8 @@
 
         <ImageView
             android:id="@+id/img01"
-            android:layout_width="78dp"
-            android:layout_height="70dp"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
             app:layout_constraintEnd_toStartOf="@+id/img02"
             app:layout_constraintStart_toEndOf="@+id/img00"
             app:layout_constraintTop_toTopOf="parent"
@@ -49,8 +54,8 @@
 
         <ImageView
             android:id="@+id/img02"
-            android:layout_width="78dp"
-            android:layout_height="70dp"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
             app:layout_constraintEnd_toStartOf="@+id/img03"
             app:layout_constraintStart_toEndOf="@+id/img01"
             app:layout_constraintTop_toTopOf="parent"
@@ -58,8 +63,8 @@
 
         <ImageView
             android:id="@+id/img03"
-            android:layout_width="78dp"
-            android:layout_height="70dp"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/img02"
             app:layout_constraintTop_toTopOf="parent"
@@ -67,8 +72,8 @@
 
         <ImageView
             android:id="@+id/img10"
-            android:layout_width="78dp"
-            android:layout_height="70dp"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
             app:layout_constraintEnd_toStartOf="@+id/img11"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/img00"
@@ -76,8 +81,8 @@
 
         <ImageView
             android:id="@+id/img11"
-            android:layout_width="78dp"
-            android:layout_height="70dp"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
             app:layout_constraintEnd_toStartOf="@+id/img12"
             app:layout_constraintStart_toEndOf="@+id/img10"
             app:layout_constraintTop_toBottomOf="@+id/img01"
@@ -85,8 +90,8 @@
 
         <ImageView
             android:id="@+id/img12"
-            android:layout_width="78dp"
-            android:layout_height="70dp"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
             app:layout_constraintEnd_toStartOf="@+id/img13"
             app:layout_constraintStart_toEndOf="@+id/img11"
             app:layout_constraintTop_toBottomOf="@+id/img02"
@@ -94,8 +99,8 @@
 
         <ImageView
             android:id="@+id/img13"
-            android:layout_width="78dp"
-            android:layout_height="70dp"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/img12"
             app:layout_constraintTop_toBottomOf="@+id/img03"
@@ -103,8 +108,8 @@
 
         <ImageView
             android:id="@+id/img20"
-            android:layout_width="78dp"
-            android:layout_height="70dp"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
             app:layout_constraintEnd_toStartOf="@+id/img21"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/img10"
@@ -112,8 +117,8 @@
 
         <ImageView
             android:id="@+id/img21"
-            android:layout_width="78dp"
-            android:layout_height="70dp"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
             app:layout_constraintEnd_toStartOf="@+id/img22"
             app:layout_constraintStart_toEndOf="@+id/img20"
             app:layout_constraintTop_toBottomOf="@+id/img11"
@@ -121,8 +126,8 @@
 
         <ImageView
             android:id="@+id/img22"
-            android:layout_width="78dp"
-            android:layout_height="70dp"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
             app:layout_constraintEnd_toStartOf="@+id/img23"
             app:layout_constraintStart_toEndOf="@+id/img21"
             app:layout_constraintTop_toBottomOf="@+id/img12"
@@ -130,8 +135,8 @@
 
         <ImageView
             android:id="@+id/img23"
-            android:layout_width="78dp"
-            android:layout_height="70dp"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/img22"
             app:layout_constraintTop_toBottomOf="@+id/img13"
@@ -139,8 +144,8 @@
 
         <ImageView
             android:id="@+id/img30"
-            android:layout_width="78dp"
-            android:layout_height="70dp"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
             app:layout_constraintEnd_toStartOf="@+id/img31"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/img20"
@@ -148,8 +153,8 @@
 
         <ImageView
             android:id="@+id/img31"
-            android:layout_width="78dp"
-            android:layout_height="70dp"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
             app:layout_constraintEnd_toStartOf="@+id/img32"
             app:layout_constraintStart_toEndOf="@+id/img30"
             app:layout_constraintTop_toBottomOf="@+id/img21"
@@ -157,8 +162,8 @@
 
         <ImageView
             android:id="@+id/img32"
-            android:layout_width="78dp"
-            android:layout_height="70dp"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
             app:layout_constraintEnd_toStartOf="@+id/img33"
             app:layout_constraintStart_toEndOf="@+id/img31"
             app:layout_constraintTop_toBottomOf="@+id/img22"
@@ -166,13 +171,12 @@
 
         <ImageView
             android:id="@+id/img33"
-            android:layout_width="78dp"
-            android:layout_height="70dp"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/img32"
             app:layout_constraintTop_toBottomOf="@+id/img23"
             tools:srcCompat="@drawable/img0" />
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -182,6 +186,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="10dp"
+        android:fontFamily="@font/josefin_sans"
         android:text="@string/score_title"
         android:textAlignment="center"
         android:textSize="24sp"
@@ -193,6 +198,7 @@
         android:id="@+id/txtScore"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/josefin_sans"
         android:text="0"
         android:textAlignment="center"
         android:textSize="24sp"
@@ -205,6 +211,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
+        android:fontFamily="@font/josefin_sans"
         android:text="@string/best_title"
         android:textAlignment="center"
         android:textSize="24sp"
@@ -216,6 +223,7 @@
         android:id="@+id/txtBest"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/josefin_sans"
         android:text="0"
         android:textAlignment="center"
         android:textSize="24sp"
@@ -228,10 +236,60 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
         android:layout_marginEnd="50dp"
+        android:fontFamily="@font/josefin_sans"
         android:onClick="onNewGameClicked"
         android:text="@string/new_game"
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtScore" />
+
+    <Button
+        android:id="@+id/btnUndo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="25dp"
+        android:backgroundTint="@color/bg1"
+        android:fontFamily="@font/josefin_sans"
+        android:onClick="onUndoClicked"
+        android:text="@string/undo"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toStartOf="@+id/btnNewGame"
+        app:layout_constraintTop_toBottomOf="@+id/txtScore" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="25dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout2">
+
+        <ImageButton
+            android:id="@+id/btnTheme1"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:onClick="onChangeThemeClicked"
+            app:srcCompat="@drawable/escolha_tema_1" />
+
+        <ImageButton
+            android:id="@+id/btnTheme2"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:onClick="onChangeThemeClicked"
+            app:srcCompat="@drawable/escolha_tema_2" />
+
+        <ImageButton
+            android:id="@+id/btnTheme3"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:onClick="onChangeThemeClicked"
+            app:srcCompat="@drawable/escolha_tema_3" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

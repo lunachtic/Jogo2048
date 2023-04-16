@@ -1,16 +1,27 @@
 package br.ucs.aula3.jogo2048;
 
+import androidx.annotation.ColorInt;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.core.view.GestureDetectorCompat;
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
+import android.content.res.Resources;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.Arrays;
 
@@ -29,12 +40,17 @@ public class MainActivity extends AppCompatActivity {
             {null, null, null, null}
     };
     private int[][] grid = {
-            {0, 2, 4, 0},
-            {2, 2, 2, 0},
-            {2, 0, 0, 2},
-            {0, 4, 0, 0}
+            {0, 0, 0, 0},
+            {0, 0, 0, 0},
+            {0, 0, 0, 0},
+            {0, 0, 0, 0}
     };
-
+    private int[][] lastGrid = {
+            {0, 0, 0, 0},
+            {0, 0, 0, 0},
+            {0, 0, 0, 0},
+            {0, 0, 0, 0}
+    };
 
     private boolean[][] gridUsed = {
             {false, false, false, false},
@@ -45,8 +61,9 @@ public class MainActivity extends AppCompatActivity {
 
     private int score = 0;
     private int best = 0;
-    private TextView scoreTextView;
-    private TextView bestTextView;
+    private TextView scoreTextView, bestTextView, titleTextView, scoreTitleTextView, bestTitleTextView;
+    private Button btnUndo, btnNewGame;
+    private ConstraintLayout constraintLayout;
     SharedPreferences sharedPreferences;
     private final int[] numbers = {R.drawable.img0, R.drawable.img2, R.drawable.img4, R.drawable.img8,
                                     R.drawable.img16, R.drawable.img32, R.drawable.img64, R.drawable.img128,
@@ -70,12 +87,27 @@ public class MainActivity extends AppCompatActivity {
                 this.images[i][j] = findViewById(ids[i][j]);
         scoreTextView = findViewById(R.id.txtScore);
         bestTextView = findViewById(R.id.txtBest);
+        titleTextView = findViewById(R.id.txtTitle);
+        scoreTitleTextView = findViewById(R.id.txtScoreTitle);
+        bestTitleTextView = findViewById(R.id.txtBestTitle);
+        constraintLayout = findViewById(R.id.constraintLayout);
+        btnUndo = findViewById(R.id.btnUndo);
+        btnNewGame = findViewById(R.id.btnNewGame);
+
+        this.changeThemeBackgrounds(R.color.bg1);
+        this.changeThemeTexts(R.color.text1);
+        this.changeThemeButtonColor(R.color.btn1);
 
         // Recupera o BEST SCORE das SharedPreferences
         sharedPreferences = getApplicationContext().getSharedPreferences("Game2048Preferences", MODE_PRIVATE);
         this.best = sharedPreferences.getInt("best_score", 0);
         this.bestTextView.setText(Integer.toString(best));
 
+        // Spawna 2 números
+        this.spawnNewNumber();
+        this.spawnNewNumber();
+
+        // Atualiza a tela
         updateImages();
     }
 
@@ -123,14 +155,35 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void zerarGridUsed() {
-        for (int i = 0; i < TAM; i++) {
-            Arrays.fill(this.gridUsed[i], false);
+    private void preMovimento() {
+        boolean gameEnded = checkGameEnded();
+        if (gameEnded) {
+            View constraintLayout = findViewById(R.id.constraintLayout);
+            Snackbar
+                    .make(constraintLayout, "O jogo acabou!", Snackbar.LENGTH_LONG)
+                    .setAction("Novo jogo", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            onNewGameClicked(view);
+                        }
+                    }).show();
+        }
+        else {
+            // Salvar lastGrid para possível futuro "Undo"
+            for (int i = 0; i < TAM; i++) {
+                this.lastGrid[i] = this.grid[i].clone();
+            }
+
+            // Zerar gridUsed
+            for (int i = 0; i < TAM; i++) {
+                Arrays.fill(this.gridUsed[i], false);
+            }
         }
     }
 
     public void onSwipeRight() {
-        this.zerarGridUsed();
+        this.preMovimento();
+
         boolean moveuAlgo = false;
         moveuAlgo = this.movimentaHorizontal(DIREITA) || moveuAlgo;
         moveuAlgo = this.somaHorizontal(DIREITA) || moveuAlgo;
@@ -138,13 +191,14 @@ public class MainActivity extends AppCompatActivity {
 
         if (moveuAlgo) {
             this.updateScore();
-            this.updateImages();
             this.spawnNewNumber();
+            this.updateImages();
         }
     }
 
     public void onSwipeLeft() {
-        this.zerarGridUsed();
+        this.preMovimento();
+
         boolean moveuAlgo = false;
         moveuAlgo = this.movimentaHorizontal(ESQUERDA) || moveuAlgo;
         moveuAlgo = this.somaHorizontal(ESQUERDA) || moveuAlgo;
@@ -152,34 +206,38 @@ public class MainActivity extends AppCompatActivity {
 
         if (moveuAlgo) {
             this.updateScore();
-            this.updateImages();
             this.spawnNewNumber();
+            this.updateImages();
         }
     }
 
     public void onSwipeTop() {
-        this.zerarGridUsed();
+        this.preMovimento();
+
         boolean moveuAlgo = false;
         moveuAlgo = this.movimentaVertical(CIMA) || moveuAlgo;
         moveuAlgo = this.somaVertical(CIMA) || moveuAlgo;
         moveuAlgo = this.movimentaVertical(CIMA) || moveuAlgo;
+
         if (moveuAlgo) {
             this.updateScore();
-            this.updateImages();
             this.spawnNewNumber();
+            this.updateImages();
         }
     }
 
     public void onSwipeBottom() {
-        this.zerarGridUsed();
+        this.preMovimento();
+
         boolean moveuAlgo = false;
         moveuAlgo = this.movimentaVertical(BAIXO) || moveuAlgo;
         moveuAlgo = this.somaVertical(BAIXO) || moveuAlgo;
         moveuAlgo = this.movimentaVertical(BAIXO) || moveuAlgo;
+
         if (moveuAlgo) {
             this.updateScore();
-            this.updateImages();
             this.spawnNewNumber();
+            this.updateImages();
         }
     }
 
@@ -226,7 +284,7 @@ public class MainActivity extends AppCompatActivity {
         boolean moveuAlgo = false;
         for (int i = (direcao == CIMA ? 1 : 2); (direcao == CIMA ? i < TAM : i >= 0); i+=direcao) {
             for (int j = 0; j < TAM; j++) {
-                // Se o campo tiver valor, movimenta o campo para a Baixo (máximo que puder)
+                // Se o campo tiver valor, movimenta o campo para a direção desejada (máximo que puder)
                 if (grid[i][j] != 0) {
                     int temp = i;
                     while ((direcao == CIMA ? i >= 1 : i <= 2) && grid[i - direcao][j] == 0) {
@@ -285,20 +343,43 @@ public class MainActivity extends AppCompatActivity {
     }
     private void spawnNewNumber() {
         int valor = (int) (Math.random() * 10);
-        // TODO: Verificar cenário onde não existe mais espaço disponível, deve encerrar o jogo
+
         while (true) {
-            int linha = (int) (Math.random() * 4);
-            int coluna = (int) (Math.random() * 4);
+            int linha = (int) (Math.random() * TAM);
+            int coluna = (int) (Math.random() * TAM);
             if (grid[linha][coluna] == 0) {
                 // Apenas 10% de chance de gerar um 4 ao invés de um 2
                 if (valor == 0)
                     grid[linha][coluna] = 4;
                 else
                     grid[linha][coluna] = 2;
+                break;
             }
-            break;
         }
         this.updateImages();
+    }
+
+    private boolean checkGameEnded() {
+        // Primeiro, verifica se existe algum campo vazio
+        for (int i = 0; i < TAM; i++) {
+            for (int j = 0; j < TAM; j++) {
+                if (grid[i][j] == 0) return false;
+            }
+        }
+        // Verificações horizontais
+        for (int i = 0; i < TAM; i++) {
+            for (int j = 0; j < TAM-1; j++) {
+                if (grid[i][j] == grid[i][j+1]) return false;
+            }
+        }
+        // Verificações verticais
+        for (int j = 0; j < TAM; j++) {
+            for (int i = 0; i < TAM-1; i++) {
+                if (grid[i][j] == grid[i+1][j]) return false;
+            }
+        }
+        // Caso em nenhum momento encontre campo vazio ou possibilidade de movimento, jogo acabou
+        return true;
     }
 
     public void onNewGameClicked(View view) {
@@ -314,5 +395,53 @@ public class MainActivity extends AppCompatActivity {
         this.spawnNewNumber();
         // Atualiza a tela
         updateImages();
+    }
+
+    public void onUndoClicked(View view) {
+        for (int i = 0; i < TAM; i++) {
+            this.grid[i] = this.lastGrid[i].clone();
+        }
+        this.updateImages();
+    }
+
+    public void onChangeThemeClicked(View view) {
+        switch (view.getId()) {
+            case R.id.btnTheme1:
+                this.changeThemeBackgrounds(R.color.bg1);
+                this.changeThemeTexts(R.color.text1);
+                this.changeThemeButtonColor(R.color.btn1);
+                break;
+            case R.id.btnTheme2:
+                this.changeThemeBackgrounds(R.color.bg2);
+                this.changeThemeTexts(R.color.text2);
+                this.changeThemeButtonColor(R.color.btn2);
+                break;
+            case R.id.btnTheme3:
+                this.changeThemeBackgrounds(R.color.bg3);
+                this.changeThemeTexts(R.color.text3);
+                this.changeThemeButtonColor(R.color.btn3);
+                break;
+
+        }
+    }
+
+    private void changeThemeBackgrounds(int color) {
+        constraintLayout.setBackgroundResource(color);
+
+        btnUndo.setTextColor(getResources().getColor(color));
+        btnNewGame.setTextColor(getResources().getColor(color));
+    }
+
+    private void changeThemeTexts(int color) {
+        titleTextView.setTextColor(getResources().getColor(color));
+        scoreTextView.setTextColor(getResources().getColor(color));
+        scoreTitleTextView.setTextColor(getResources().getColor(color));
+        bestTextView.setTextColor(getResources().getColor(color));
+        bestTitleTextView.setTextColor(getResources().getColor(color));
+    }
+
+    private void changeThemeButtonColor(int color) {
+        btnUndo.setBackgroundTintList(ColorStateList.valueOf(ResourcesCompat.getColor(getResources(), color, null)));
+        btnNewGame.setBackgroundTintList(ColorStateList.valueOf(ResourcesCompat.getColor(getResources(), color, null)));
     }
 }

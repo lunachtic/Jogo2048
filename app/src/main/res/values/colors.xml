@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Cores padão -->
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>
     <color name="purple_700">#FF3700B3</color>
@@ -7,4 +8,19 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- Tema 1 -->
+    <color name="bg1">#FF292E30</color>
+    <color name="text1">#FF4ABAD8</color>
+    <color name="btn1">#FFF8F2E1</color>
+
+    <!-- Tema 2 -->
+    <color name="bg2">#FFFBF5EF</color>
+    <color name="text2">#FFC69FA5</color>
+    <color name="btn2">#FFA35A68</color>
+
+    <!-- Tema 3 -->
+    <color name="bg3">#FF292831</color>
+    <color name="text3">#FF4A7A96</color>
+    <color name="btn3">#FFEE8695</color>
 </resources>
