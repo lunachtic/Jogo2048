@@ -61,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
 
     private int score = 0;
     private int best = 0;
+    boolean gameEnded;
     private TextView scoreTextView, bestTextView, titleTextView, scoreTitleTextView, bestTitleTextView;
     private Button btnUndo, btnNewGame;
     private ConstraintLayout constraintLayout;
@@ -152,10 +153,7 @@ public class MainActivity extends AppCompatActivity {
             return result;
         }
     }
-
-    private void preMovimento() {
-        boolean gameEnded = checkGameEnded();
-        if (gameEnded) {
+    private void msgEndGame(){
             View constraintLayout = findViewById(R.id.constraintLayout);
             Snackbar
                     .make(constraintLayout, "O jogo acabou!", Snackbar.LENGTH_LONG)
@@ -165,77 +163,85 @@ public class MainActivity extends AppCompatActivity {
                             onNewGameClicked(view);
                         }
                     }).show();
-        }
-        else {
-            // Salvar lastGrid para possível futuro "Undo"
-            for (int i = 0; i < TAM; i++) {
-                this.lastGrid[i] = this.grid[i].clone();
+        return;
+    }
+    private boolean preMovimento() {
+        if (gameEnded) {
+            this.msgEndGame();
+            return false;
+        }else
+            if(gameEnded = checkGameEnded()) {
+                this.msgEndGame();
+                return false;
             }
-
-            // Zerar gridUsed
-            for (int i = 0; i < TAM; i++) {
-                Arrays.fill(this.gridUsed[i], false);
+            else{
+                // Salvar lastGrid para possível futuro "Undo"
+                for (int i = 0; i < TAM; i++)
+                    this.lastGrid[i] = this.grid[i].clone();
+                // Zerar gridUsed
+                for (int i = 0; i < TAM; i++)
+                    Arrays.fill(this.gridUsed[i], false);
             }
-        }
+        return true;
     }
 
     public void onSwipeRight() {
-        this.preMovimento();
+        if(this.preMovimento()) {
+            boolean moveuAlgo = false;
+            moveuAlgo = this.movimentaHorizontal(DIREITA) || moveuAlgo;
+            moveuAlgo = this.somaHorizontal(DIREITA) || moveuAlgo;
+            moveuAlgo = this.movimentaHorizontal(DIREITA) || moveuAlgo;
 
-        boolean moveuAlgo = false;
-        moveuAlgo = this.movimentaHorizontal(DIREITA) || moveuAlgo;
-        moveuAlgo = this.somaHorizontal(DIREITA) || moveuAlgo;
-        moveuAlgo =this.movimentaHorizontal(DIREITA) || moveuAlgo;
-
-        if (moveuAlgo) {
-            this.updateScore();
-            this.spawnNewNumber();
-            this.updateImages();
+            if (moveuAlgo) {
+                this.updateScore();
+                this.spawnNewNumber();
+                this.updateImages();
+            }
         }
     }
 
     public void onSwipeLeft() {
-        this.preMovimento();
+        if(this.preMovimento()) {
+            boolean moveuAlgo = false;
+            moveuAlgo = this.movimentaHorizontal(ESQUERDA) || moveuAlgo;
+            moveuAlgo = this.somaHorizontal(ESQUERDA) || moveuAlgo;
+            moveuAlgo = this.movimentaHorizontal(ESQUERDA) || moveuAlgo;
 
-        boolean moveuAlgo = false;
-        moveuAlgo = this.movimentaHorizontal(ESQUERDA) || moveuAlgo;
-        moveuAlgo = this.somaHorizontal(ESQUERDA) || moveuAlgo;
-        moveuAlgo =this.movimentaHorizontal(ESQUERDA) || moveuAlgo;
-
-        if (moveuAlgo) {
-            this.updateScore();
-            this.spawnNewNumber();
-            this.updateImages();
+            if (moveuAlgo) {
+                this.updateScore();
+                this.spawnNewNumber();
+                this.updateImages();
+            }
         }
     }
 
     public void onSwipeTop() {
-        this.preMovimento();
+        if(this.preMovimento()) {
+            boolean moveuAlgo = false;
+            moveuAlgo = this.movimentaVertical(CIMA) || moveuAlgo;
+            moveuAlgo = this.somaVertical(CIMA) || moveuAlgo;
+            moveuAlgo = this.movimentaVertical(CIMA) || moveuAlgo;
 
-        boolean moveuAlgo = false;
-        moveuAlgo = this.movimentaVertical(CIMA) || moveuAlgo;
-        moveuAlgo = this.somaVertical(CIMA) || moveuAlgo;
-        moveuAlgo = this.movimentaVertical(CIMA) || moveuAlgo;
-
-        if (moveuAlgo) {
-            this.updateScore();
-            this.spawnNewNumber();
-            this.updateImages();
+            if (moveuAlgo) {
+                this.updateScore();
+                this.spawnNewNumber();
+                this.updateImages();
+            }
         }
     }
 
     public void onSwipeBottom() {
-        this.preMovimento();
+        if(this.preMovimento()) {
+            boolean moveuAlgo = false;
+            moveuAlgo = this.movimentaVertical(BAIXO) || moveuAlgo;
+            moveuAlgo = this.somaVertical(BAIXO) || moveuAlgo;
+            moveuAlgo = this.movimentaVertical(BAIXO) || moveuAlgo;
 
-        boolean moveuAlgo = false;
-        moveuAlgo = this.movimentaVertical(BAIXO) || moveuAlgo;
-        moveuAlgo = this.somaVertical(BAIXO) || moveuAlgo;
-        moveuAlgo = this.movimentaVertical(BAIXO) || moveuAlgo;
-
-        if (moveuAlgo) {
-            this.updateScore();
-            this.spawnNewNumber();
-            this.updateImages();
+            if (moveuAlgo) {
+                this.updateScore();
+                this.spawnNewNumber();
+                this.updateImages();
+            }
         }
     }
 
@@ -328,20 +334,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateImages() {
+        int value, pos;
         for (int i = 0; i < TAM; i++) {
             for (int j = 0; j < TAM; j++) {
-                int value = grid[i][j];
-                int pos = 0;
+                value = grid[i][j];
+                pos = 0;
                 if (value > 0)
                     pos = (int) Math.round(Math.log(value)/Math.log(2));
+                if(value == 2048) gameEnded=true;
                 this.images[i][j].setImageDrawable(ResourcesCompat.getDrawable(this.getResources(), numbers[pos], null));
             }
         }
+        if(gameEnded) this.msgEndGame();
         return;
     }
     private void spawnNewNumber() {
         int valor = (int) (Math.random() * 10);
-
         while (true) {
             int linha = (int) (Math.random() * TAM);
             int coluna = (int) (Math.random() * TAM);
@@ -381,6 +389,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onNewGameClicked(View view) {
+        gameEnded=false;
         // Zera a grid
         for (int i = 0; i < TAM; i++) {
             Arrays.fill(this.grid[i], 0);
