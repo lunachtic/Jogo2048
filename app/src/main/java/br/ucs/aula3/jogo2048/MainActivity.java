@@ -1,18 +1,12 @@
 package br.ucs.aula3.jogo2048;
 
-import androidx.annotation.ColorInt;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.core.view.GestureDetectorCompat;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
-import android.content.res.Resources;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -166,27 +160,23 @@ public class MainActivity extends AppCompatActivity {
         return;
     }
     private boolean preMovimento() {
+        gameEnded = checkGameEnded();
         if (gameEnded) {
             this.msgEndGame();
             return false;
-        }else
-            if(gameEnded = checkGameEnded()) {
-                this.msgEndGame();
-                return false;
-            }
-            else{
-                // Salvar lastGrid para possível futuro "Undo"
-                for (int i = 0; i < TAM; i++)
-                    this.lastGrid[i] = this.grid[i].clone();
-                // Zerar gridUsed
-                for (int i = 0; i < TAM; i++)
-                    Arrays.fill(this.gridUsed[i], false);
-            }
+        }
+
+        // Salvar lastGrid para possível futuro "Undo"
+        for (int i = 0; i < TAM; i++)
+            this.lastGrid[i] = this.grid[i].clone();
+        // Zerar gridUsed
+        for (int i = 0; i < TAM; i++)
+            Arrays.fill(this.gridUsed[i], false);
         return true;
     }
 
     public void onSwipeRight() {
-        if(this.preMovimento()) {
+        if (this.preMovimento()) {
             boolean moveuAlgo = false;
             moveuAlgo = this.movimentaHorizontal(DIREITA) || moveuAlgo;
             moveuAlgo = this.somaHorizontal(DIREITA) || moveuAlgo;
@@ -201,7 +191,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onSwipeLeft() {
-        if(this.preMovimento()) {
+        if (this.preMovimento()) {
             boolean moveuAlgo = false;
             moveuAlgo = this.movimentaHorizontal(ESQUERDA) || moveuAlgo;
             moveuAlgo = this.somaHorizontal(ESQUERDA) || moveuAlgo;
@@ -216,7 +206,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onSwipeTop() {
-        if(this.preMovimento()) {
+        if (this.preMovimento()) {
             boolean moveuAlgo = false;
             moveuAlgo = this.movimentaVertical(CIMA) || moveuAlgo;
             moveuAlgo = this.somaVertical(CIMA) || moveuAlgo;
@@ -231,7 +221,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onSwipeBottom() {
-        if(this.preMovimento()) {
+        if (this.preMovimento()) {
             boolean moveuAlgo = false;
             moveuAlgo = this.movimentaVertical(BAIXO) || moveuAlgo;
             moveuAlgo = this.somaVertical(BAIXO) || moveuAlgo;
@@ -341,11 +331,11 @@ public class MainActivity extends AppCompatActivity {
                 pos = 0;
                 if (value > 0)
                     pos = (int) Math.round(Math.log(value)/Math.log(2));
-                if(value == 2048) gameEnded=true;
+                if(value == 2048) gameEnded = true;
                 this.images[i][j].setImageDrawable(ResourcesCompat.getDrawable(this.getResources(), numbers[pos], null));
             }
         }
-        if(gameEnded) this.msgEndGame();
+        if (gameEnded) this.msgEndGame();
         return;
     }
     private void spawnNewNumber() {
